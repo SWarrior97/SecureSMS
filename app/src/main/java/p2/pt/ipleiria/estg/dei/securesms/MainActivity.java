@@ -41,9 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private void sendSMS(String phoneNumber, String message)
     {
         String smsNumber = String.format("smsto: %s",
-                txtPhoneNo.getText().toString());
+                phoneNumber);
 
-        String sms = txtMessage.getText().toString();
+        String sms = message;
 
         Intent smsIntent = new Intent(Intent.ACTION_SENDTO);
 
