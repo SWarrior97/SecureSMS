@@ -2,12 +2,15 @@ package p2.pt.ipleiria.estg.dei.securesms;
 
 import android.Manifest;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
+import android.telephony.gsm.SmsMessage;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Encryption enc;
     private ContactManager contactManager;
     private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
+    SmsReceiver smsReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +68,7 @@ public class MainActivity extends AppCompatActivity {
         btnSendSMS = findViewById(R.id.btnSendSMS);
         enc = new Encryption();
         contactManager = new ContactManager();
-        int test = contactManager.getContacts().size();
-        Toast.makeText(getBaseContext(),
-                String.valueOf(test),
-                Toast.LENGTH_SHORT).show();
+        smsReceiver = new SmsReceiver();
 
     }
 
