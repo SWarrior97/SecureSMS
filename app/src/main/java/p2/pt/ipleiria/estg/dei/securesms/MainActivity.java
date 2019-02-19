@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -20,13 +21,15 @@ public class MainActivity extends AppCompatActivity {
     private static final int PERMISSION_REQUEST_CODE = 1;
     private Encryption enc;
     private ContactManager contactManager;
-
+    private static final int PERMISSIONS_REQUEST_READ_CONTACTS = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
+
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             if (checkSelfPermission(Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_DENIED) {
@@ -35,6 +38,20 @@ public class MainActivity extends AppCompatActivity {
 
                 requestPermissions(permissions, PERMISSION_REQUEST_CODE);
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, PERMISSIONS_REQUEST_READ_CONTACTS);
+            //After this point you wait for callback in onRequestPermissionsResult(int, String[], int[]) overriden method
+        } else {
+            contactManager.getContactList(this.getContentResolver());
+
+            for(Contact c:contactManager.getContacts()){
+                Log.d("Contact",c.getPhoneNumber());
+            }
+            /*Toast.makeText(getBaseContext(),
+                    String.valueOf(contactManager.getContacts().size()),
+                    Toast.LENGTH_SHORT).show();*/
         }
 
 
