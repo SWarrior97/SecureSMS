@@ -14,13 +14,13 @@ import javax.crypto.spec.SecretKeySpec;
  *
  * @author Carlos Gomes
  */
-public class Encriptacao {
+public class Encryption {
     private static final String ALGORITHM = "AES";
     private String key = "Bar12345Bar12345";
     private Cipher ecipher;
     private Cipher dcipher;
 
-    public Encriptacao() {
+    public Encryption() {
         init();
     }
 
@@ -65,9 +65,9 @@ public class Encriptacao {
             ecipher = Cipher.getInstance(ALGORITHM);
             dcipher = Cipher.getInstance(ALGORITHM);
         } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(Encriptacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Encryption.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NoSuchPaddingException ex) {
-            Logger.getLogger(Encriptacao.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Encryption.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
