@@ -13,14 +13,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import javax.crypto.EncryptedPrivateKeyInfo;
-
 public class MainActivity extends AppCompatActivity {
     private EditText txtPhoneNo;
     private EditText txtMessage;
     private Button btnSendSMS;
     private static final int PERMISSION_REQUEST_CODE = 1;
-    private Encriptacao enc;
+    private Encryption enc;
+    private ContactManager contactManager;
 
 
     @Override
@@ -46,7 +45,12 @@ public class MainActivity extends AppCompatActivity {
         txtMessage = findViewById(R.id.txtMessage);
         txtPhoneNo = findViewById(R.id.txtPhoneNo);
         btnSendSMS = findViewById(R.id.btnSendSMS);
-        enc = new Encriptacao();
+        enc = new Encryption();
+        contactManager = new ContactManager();
+        int test = contactManager.getContacts().size();
+        Toast.makeText(getBaseContext(),
+                String.valueOf(test),
+                Toast.LENGTH_SHORT).show();
 
     }
 
