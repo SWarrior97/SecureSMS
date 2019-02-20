@@ -5,11 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.gsm.SmsMessage;
-import android.widget.Toast;
 
 public class SmsReceiver extends BroadcastReceiver
 {
-    SmsMessage[] msgs = null;
+    public static String MSG = "MESSAGE";
+    public static String PHONENUMBER = "MESSAGENUMBER";
+
     @Override
     public void onReceive(Context context, Intent intent)
     {
@@ -21,20 +22,14 @@ public class SmsReceiver extends BroadcastReceiver
         {
             //---retrieve the SMS message received---
             Object[] pdus = (Object[]) bundle.get("pdus");
-            msgs = new SmsMessage[pdus.length];
-            for (int i=0; i<msgs.length; i++){
-                msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
-                str += "SMS from " + msgs[i].getOriginatingAddress();
-                str += " :";
-                str += msgs[i].getMessageBody().toString();
-                str += "n";
-            }
-            //---display the new SMS message---
-            Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
+            SmsMessage message = SmsMessage.createFromPdu((byte[])pdus[0]);
+            String phoneNumber = message.getOriginatingAddress();
+            String msg = message.getMessageBody();
+            Intent i = new Intent(context,ReceiveActivity.class);
+            i.putExtra(MSG,msg);
+            i.putExtra(PHONENUMBER,phoneNumber);
+            context.startActivity(i);
         }
     }
 
-    public SmsMessage[] getMsgs() {
-        return msgs;
-    }
 }
